@@ -99,30 +99,32 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
         <div className="leading-tight">
           <h1 className="text-[14px] sm:text-[15px] font-display font-semibold
             text-slate-900 tracking-tight">
-            Thermal Anomaly Classifier
+            TAKIS
           </h1>
           <p className="text-[10px] sm:text-[11px] text-slate-400 font-medium">
-            SIH26162 · fire type intelligence
+            Thermal Anomaly Classification &amp; Investigation System
           </p>
         </div>
       </div>
 
       {/* Desktop search */}
-      <div className="relative ml-4 sm:ml-6 flex-1 max-w-md hidden md:block">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2">
-          <SearchIcon />
+      <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full max-w-xl px-4">
+        <div className="relative">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2">
+            <SearchIcon />
+          </div>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => onSearch(e.target.value)}
+            placeholder="Search id, class, notes, coordinates..."
+            className="w-full h-10 pl-9 pr-4 rounded-xl bg-slate-100
+              border border-slate-200 text-sm text-slate-700
+              placeholder:text-slate-400 focus:outline-none
+              focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400
+              focus:bg-white transition"
+          />
         </div>
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => onSearch(e.target.value)}
-          placeholder="Search id, class, notes, coordinates..."
-          className="w-full h-9 pl-9 pr-3 rounded-lg bg-slate-100
-            border border-slate-200 text-sm text-slate-700
-            placeholder:text-slate-400 focus:outline-none
-            focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400
-            focus:bg-white transition"
-        />
       </div>
 
       {/* Mobile search toggle */}
