@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from ..ml.explain import (
+    NEARBY_THRESHOLD_M,
     investigation_priority,
     render_evidence,
     why_not_text,
@@ -50,7 +51,7 @@ def _classify_record(record: dict[str, Any]) -> None:
     result = classify_detection(record["features"], with_shap=False)
     record["classification"] = result
     priority, reason = investigation_priority(
-        result["predicted_class"], result["confidence"]
+        result["predicted_class"], result["confidence"], record["features"]
     )
     record["priority"] = priority
     record["priority_reason"] = reason
@@ -221,7 +222,12 @@ def _build_detail(record: dict[str, Any]) -> dict[str, Any]:
 
     f_lat = float(features.get("latitude", 0.0))
     f_lon = float(features.get("longitude", 0.0))
-    nearest = nearest_facility(f_lat, f_lon)
+    nearest = nearest_facility(f_lat, f_lon, max_distance_m=NEARBY_THRESHOLD_M)
+
+    # Recompute priority with full features for detail view
+    priority, priority_reason = investigation_priority(
+        pred, full["confidence"], features
+    )
 
     item = list_item(record)
     return {
@@ -229,7 +235,8 @@ def _build_detail(record: dict[str, Any]) -> dict[str, Any]:
         "frp_mw": item["frp_mw"],
         "predicted_class": pred,
         "probability": full["confidence"],
-        "priority_reason": record["priority_reason"],
+        "priority": priority,
+        "priority_reason": priority_reason,
         "top_3": full["top_3"],
         "evidence": evidence,
         "shap_top_5": full["shap_top_5"],

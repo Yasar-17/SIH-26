@@ -175,22 +175,70 @@ def why_not_text(predicted_class: str, second_class: str,
            + "; ".join(parts) + "."
 
 
-def investigation_priority(predicted_class: str,
-                           probability: float) -> tuple[str, str]:
-    """High / Medium / Low investigation priority.
+NEARBY_THRESHOLD_M = 20_000  # 20 km — configurable constant
 
-    High: Industrial Fire or Gas Flare with calibrated probability > 70%.
-    Low:  Other/Unknown, or calibrated confidence below 40%.
-    Medium: everything else.
+
+def investigation_priority(predicted_class: str,
+                           probability: float,
+                           features: dict | None = None) -> tuple[str, str]:
+    """High / Medium / Low investigation priority with evidence-based reason.
+
+    Rules (evaluated in order):
+      1. High: Industrial Fire / Gas Flare with > 70% confidence, OR
+               any class > 85% confidence near infrastructure (< 20 km)
+               or in built-up areas (> 30% built-up probability).
+      2. Low:  Other/Unknown, or confidence below 40%.
+      3. Medium: everything else.
     """
-    if predicted_class in ("Industrial Fire", "Gas Flare") and probability > 0.70:
-        return ("High",
-                f"High-consequence class ({predicted_class}) with strong "
-                f"model confidence ({probability:.0%}).")
+    feats = features or {}
+    built_up = float(feats.get("built_probability", 0))
+    trees = float(feats.get("trees_probability", 0))
+    dist_ind = feats.get("distance_to_industrial_m")
+    near_factory = dist_ind is not None and dist_ind < NEARBY_THRESHOLD_M
+    near_refinery = False
+    dist_ref = feats.get("distance_to_refinery_m")
+    if dist_ref is not None:
+        near_refinery = dist_ref < NEARBY_THRESHOLD_M
+
+    # --- Low priority (check first for Other/Unknown and low confidence) ---
     if predicted_class == "Other/Unknown" or probability < 0.40:
         return ("Low",
-                f"Weak or unconfirmed classification "
-                f"({predicted_class} at {probability:.0%}).")
+                f"{predicted_class} at {probability:.0%} confidence. "
+                f"Insufficient evidence for further investigation.")
+
+    # --- High priority ---
+    if predicted_class in ("Industrial Fire", "Gas Flare") and probability > 0.70:
+        parts = [f"{predicted_class} at {probability:.0%} confidence"]
+        if near_factory and dist_ind is not None:
+            parts.append(f"near industrial infrastructure ({dist_ind / 1000:.0f} km)")
+        elif near_refinery and dist_ref is not None:
+            parts.append(f"near refinery ({dist_ref / 1000:.1f} km)")
+        elif built_up > 0.3:
+            parts.append(f"in built-up area ({built_up:.0%} built-up)")
+        return ("High", ". ".join(parts) + ".")
+
+    if probability > 0.85 and (near_factory or near_refinery or built_up > 0.3):
+        loc = None
+        if near_factory and dist_ind is not None:
+            loc = f"{dist_ind / 1000:.0f} km from industrial site"
+        elif near_refinery and dist_ref is not None:
+            loc = f"{dist_ref / 1000:.1f} km from refinery"
+        else:
+            loc = f"built-up area ({built_up:.0%} built-up)"
+        return ("High",
+                f"{predicted_class} at {probability:.0%} confidence, {loc}.")
+
+    # --- Medium priority (everything else) ---
+    context_parts = []
+    if trees > 0.5:
+        context_parts.append(f"forested area ({trees:.0%} tree cover)")
+    elif built_up > 0.3:
+        context_parts.append(f"built-up area ({built_up:.0%} built-up)")
+    if near_factory and dist_ind is not None:
+        context_parts.append(f"{dist_ind / 1000:.0f} km from industrial site")
+    elif near_refinery and dist_ref is not None:
+        context_parts.append(f"{dist_ref / 1000:.1f} km from refinery")
+
+    ctx = f" in {', '.join(context_parts)}" if context_parts else ""
     return ("Medium",
-            f"{predicted_class} at {probability:.0%} — plausible but not "
-            f"urgent.")
+            f"{predicted_class} at {probability:.0%} confidence{ctx}.")

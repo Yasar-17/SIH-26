@@ -127,13 +127,17 @@ function DetailBody({ d }) {
               border-slate-200 text-[10px] font-medium text-slate-500
               uppercase tracking-wide">{d.source}</span>
           </p>
-          {d.nearest_industrial && (
+          {d.nearest_industrial ? (
             <p className="flex items-center gap-1.5 pt-1">
               <span className="text-slate-400">Nearest:</span>
               <span className="text-slate-700">{d.nearest_industrial.name}</span>
               <span className="font-mono text-slate-500">
                 ({(d.nearest_industrial.distance_m / 1000).toFixed(0)} km)
               </span>
+            </p>
+          ) : (
+            <p className="flex items-center gap-1.5 pt-1 text-slate-400 text-xs">
+              No facilities within 20 km
             </p>
           )}
         </div>
@@ -148,7 +152,7 @@ function DetailBody({ d }) {
             <Reading label="Brightness I5" value={
               Math.round(i5)} unit="K" />
           )}
-          <Reading label="Confidence" value={
+          <Reading label="Sensor Confidence" value={
             Math.round(d.confidence * 100)} unit="%" />
         </div>
       </Section>
