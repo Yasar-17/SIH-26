@@ -119,7 +119,7 @@ class ClassProfile:
 PROFILES: dict[str, ClassProfile] = {
     "Gas Flare": ClassProfile(
         "Gas Flare", 600,
-        lat_centre=(24.0, 3.0), lon_centre=(71.0, 2.5),
+        lat_centre=(22.5, 5.5), lon_centre=(73.0, 6.0),
         frp=(220.0, 70.0), bt_i4=(1850.0, 180.0), bt_i5=(335.0, 12.0),
         conf=(92.0, 4.0), day_night_p_night=0.78,
         persist=(240.0, 70.0), tot_365=(290.0, 50.0),
@@ -134,7 +134,7 @@ PROFILES: dict[str, ClassProfile] = {
     ),
     "Industrial Fire": ClassProfile(
         "Industrial Fire", 500,
-        lat_centre=(22.0, 3.2), lon_centre=(78.5, 5.0),
+        lat_centre=(21.0, 5.5), lon_centre=(80.0, 6.5),
         frp=(360.0, 120.0), bt_i4=(620.0, 130.0), bt_i5=(355.0, 14.0),
         conf=(84.0, 6.0), day_night_p_night=0.5,
         persist=(28.0, 18.0), tot_365=(70.0, 40.0),
@@ -149,7 +149,7 @@ PROFILES: dict[str, ClassProfile] = {
     ),
     "Wildfire": ClassProfile(
         "Wildfire", 1000,
-        lat_centre=(27.5, 3.5), lon_centre=(84.0, 5.0),
+        lat_centre=(21.0, 6.0), lon_centre=(79.0, 7.0),
         frp=(180.0, 90.0), bt_i4=(480.0, 110.0), bt_i5=(345.0, 16.0),
         conf=(78.0, 9.0), day_night_p_night=0.42,
         persist=(8.0, 6.0), tot_365=(12.0, 8.0),
@@ -164,7 +164,7 @@ PROFILES: dict[str, ClassProfile] = {
     ),
     "Agricultural Burning": ClassProfile(
         "Agricultural Burning", 800,
-        lat_centre=(28.5, 2.2), lon_centre=(76.5, 2.5),
+        lat_centre=(24.0, 5.0), lon_centre=(78.0, 5.5),
         frp=(55.0, 25.0), bt_i4=(380.0, 45.0), bt_i5=(332.0, 10.0),
         conf=(76.0, 8.0), day_night_p_night=0.28,
         persist=(4.0, 3.0), tot_365=(18.0, 9.0),
@@ -179,7 +179,7 @@ PROFILES: dict[str, ClassProfile] = {
     ),
     "Other/Unknown": ClassProfile(
         "Other/Unknown", 400,
-        lat_centre=(20.0, 7.0), lon_centre=(82.0, 8.0),
+        lat_centre=(22.0, 7.0), lon_centre=(80.0, 8.0),
         frp=(18.0, 14.0), bt_i4=(345.0, 35.0), bt_i5=(315.0, 14.0),
         conf=(32.0, 12.0), day_night_p_night=0.5,
         persist=(6.0, 6.0), tot_365=(8.0, 6.0),
