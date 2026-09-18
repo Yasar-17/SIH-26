@@ -1,14 +1,13 @@
 """Geographically realistic demo seed for the map.
 
 Generates ~48 detections anchored to real Indian industrial / agricultural
-/ forested regions instead of scattered random points:
+/ forested regions, spread across multiple zones of India:
 
-  - Gas Flare            -> Gujarat refineries (Jamnagar, Koyali, Hazira)
-  - Industrial Fire      -> Odisha-Chhattisgarh mining/steel belt
-                            (Talcher, Angul, Korba, Singrauli)
-  - Wildfire             -> Uttarakhand + Himachal forest ranges
-  - Agricultural Burning -> Punjab + Haryana (stubble-burning belt)
-  - Other/Unknown        -> scattered major cities
+  - Gas Flare            -> Gujarat refineries + Mumbai offshore + Assam oilfields
+  - Industrial Fire      -> Chhattisgarh-Odisha mining belt + Jharkhand + Maharashtra
+  - Wildfire             -> Central India forests + Northeast + Western Ghats + Himalayas
+  - Agricultural Burning -> Punjab-Haryana + UP-Bihar + Maharashtra-MP
+  - Other/Unknown        -> scattered across multiple regions
 
 Feature values are sampled from the class profiles in
 generate_synthetic_data (so each detection is internally consistent); the
@@ -27,28 +26,31 @@ _SEED = 26162
 
 ANCHORS: dict[str, list[tuple[float, float]]] = {
     "Gas Flare": [
-        (22.75, 69.95), (22.73, 70.02), (22.79, 69.88),
-        (22.68, 70.05), (22.82, 69.91),
-        (22.28, 73.17), (22.33, 73.11),
-        (21.10, 72.65),
+        (22.75, 69.95), (22.73, 70.02), (22.28, 73.17),
+        (18.95, 72.85), (21.10, 72.65),
+        (26.20, 69.80),
+        (27.18, 94.10), (26.75, 93.15),
     ],
     "Industrial Fire": [
-        (20.93, 85.13), (20.90, 85.20), (20.98, 85.05),
-        (20.84, 85.10), (20.80, 85.16),
-        (22.35, 82.68), (22.30, 82.74),
-        (24.12, 82.66),
+        (22.35, 82.68), (22.30, 82.74), (23.25, 82.30),
+        (23.60, 85.95), (23.35, 86.40),
+        (19.80, 75.40), (20.10, 75.80),
+        (11.10, 78.65),
     ],
     "Wildfire": [
-        (30.29, 78.03), (29.85, 79.10), (30.35, 79.45), (29.60, 80.00),
-        (30.70, 78.60), (30.05, 79.70), (30.55, 79.15),
-        (31.90, 77.10), (32.20, 76.90), (31.60, 77.90),
-        (32.50, 76.80), (31.10, 78.20),
+        (22.50, 78.50), (22.80, 79.20), (21.50, 80.80),
+        (25.60, 78.50), (25.90, 79.10),
+        (27.10, 94.20), (26.50, 93.80), (25.80, 94.50),
+        (15.40, 76.50), (14.80, 75.80),
+        (30.50, 79.00), (30.20, 79.50),
     ],
     "Agricultural Burning": [
-        (31.63, 74.87), (30.90, 75.85), (30.34, 76.38), (30.21, 74.94),
-        (30.24, 75.84), (31.33, 75.58), (30.92, 74.61), (30.80, 75.17),
-        (29.69, 76.99), (29.15, 75.72), (29.80, 76.40), (30.00, 76.88),
-        (29.53, 75.03), (28.90, 76.57),
+        (31.63, 74.87), (30.90, 75.85), (30.34, 76.38),
+        (28.60, 77.80), (28.20, 78.50), (27.90, 79.10),
+        (26.10, 81.50), (25.80, 82.00),
+        (20.50, 78.20), (21.00, 77.50),
+        (23.20, 77.40), (23.80, 76.90),
+        (29.20, 75.80), (29.80, 76.50),
     ],
     "Other/Unknown": [
         (28.61, 77.21), (19.08, 72.88), (13.08, 80.27),
