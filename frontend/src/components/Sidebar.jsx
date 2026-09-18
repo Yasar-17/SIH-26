@@ -63,9 +63,9 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose }
       )}
 
       <aside className={`
-        shrink-0 bg-[#F7F8FA] border-r-2 border-[#E2E4E8] text-[#1A1D21] flex flex-col
-        shadow-[2px_0_8px_-2px_rgba(0,0,0,0.06)]
-        fixed md:static top-14 bottom-0 left-0 z-50
+        shrink-0 bg-[#F7F8FA] border-r-2 border-[#9CA3AF] text-[#1A1D21] flex flex-col
+        shadow-[2px_0_8px_-2px_rgba(0,0,0,0.1)]
+        fixed md:static top-14 bottom-0 left-0 z-[70]
         w-[260px] md:w-[230px] lg:w-[260px] xl:w-[300px]
         transition-transform duration-200 ease-in-out
         ${open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
@@ -96,7 +96,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose }
             <h2 className="text-[11px] font-semibold tracking-[0.14em]
               uppercase text-gray-400">Filter by class</h2>
           </div>
-          <div className="h-px bg-[#E2E4E8]" />
+          <div className="h-px bg-[#9CA3AF]" />
         </div>
 
         {/* Filter cards */}
@@ -116,8 +116,8 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose }
                   select-none transition-all duration-150 relative overflow-hidden
                   border
                   ${on
-                    ? 'border-gray-200'
-                    : 'border-transparent opacity-50 hover:opacity-75'}
+                    ? 'border-gray-400 shadow-sm'
+                    : 'border-gray-300/60 opacity-50 hover:opacity-75'}
                 `}
                 style={{
                   background: on ? tint : 'transparent',
@@ -179,10 +179,10 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose }
         </div>
 
         {/* Stats footer card */}
-        <div className="mt-auto mx-3 mb-3 rounded-lg border border-[#E2E4E8] bg-[#FAFAFB]">
+        <div className="mt-auto mx-3 mb-3 rounded-lg border border-[#9CA3AF] bg-[#FAFAFB] shadow-sm">
           {/* High priority — primary risk metric */}
           <div className="flex items-center justify-between px-4 py-2.5
-            border-b border-[#E2E4E8]">
+            border-b border-[#9CA3AF]">
             <span className="flex items-center gap-2 text-[12px] font-medium text-[#1A1D21]">
               <span className="flex items-center justify-center h-5 w-5 rounded
                 bg-red-50">
@@ -204,7 +204,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose }
 
           {/* Total detections */}
           <div className="flex items-center justify-between px-4 py-2
-            border-b border-[#E2E4E8]/50">
+            border-b border-[#9CA3AF]/60">
             <span className="text-[12px] text-gray-500">Total detections</span>
             <span className="font-mono text-[12px] font-semibold text-[#1A1D21]">
               {stats?.total ?? '–'}
