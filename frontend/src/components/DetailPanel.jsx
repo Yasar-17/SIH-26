@@ -93,7 +93,18 @@ function ProbChart({ top3 }) {
   )
 }
 
-function DetailBody({ d }) {
+function PdfIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+      <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z" />
+      <path d="M9 9h1M9 13h6M9 17h6" />
+    </svg>
+  )
+}
+
+function DetailBody({ d, onExportPdf }) {
   const color = CATEGORY_COLORS[d.predicted_class] || '#6b7280'
   const whyNotBullets = d.why_not
     ? d.why_not.explanation.split('; ').filter((s) => s.trim())
@@ -108,13 +119,25 @@ function DetailBody({ d }) {
           <span className="font-mono text-[10px] text-slate-400">
             {d.id}
           </span>
-          <button
-            className="h-7 w-7 rounded-lg flex items-center justify-center
-              text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
-            aria-label="Close detail panel"
-          >
-            <CloseIcon />
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => onExportPdf?.(d)}
+              className="h-7 px-2.5 rounded-lg flex items-center gap-1.5
+                text-[10px] font-medium text-slate-400
+                hover:bg-slate-100 hover:text-orange-600 transition"
+              title="Export as PDF"
+            >
+              <PdfIcon />
+              <span className="hidden sm:inline">PDF</span>
+            </button>
+            <button
+              className="h-7 w-7 rounded-lg flex items-center justify-center
+                text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+              aria-label="Close detail panel"
+            >
+              <CloseIcon />
+            </button>
+          </div>
         </div>
 
         {/* Class name + priority badge */}
@@ -231,7 +254,7 @@ function DetailBody({ d }) {
   )
 }
 
-export default function DetailPanel({ entry, onClose }) {
+export default function DetailPanel({ entry, onClose, onExportPdf }) {
   return (
     <>
       {/* Backdrop */}
@@ -268,7 +291,7 @@ export default function DetailPanel({ entry, onClose }) {
           </div>
         )}
 
-        {entry?.status === 'ok' && <DetailBody d={entry.data} />}
+        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} />}
       </aside>
 
       {/* Mobile: bottom drawer, 60% height */}
@@ -299,7 +322,7 @@ export default function DetailPanel({ entry, onClose }) {
           </div>
         )}
 
-        {entry?.status === 'ok' && <DetailBody d={entry.data} />}
+        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} />}
       </aside>
     </>
   )

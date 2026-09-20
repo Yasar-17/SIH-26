@@ -3,8 +3,10 @@ import TopNav from '../components/TopNav'
 import Sidebar from '../components/Sidebar'
 import MapView from '../components/MapView'
 import DetailPanel from '../components/DetailPanel'
+import CategoryList from '../components/CategoryList'
 import StatusBar from '../components/StatusBar'
 import { CLASSES, REFRESH_INTERVAL_MS } from '../lib/constants'
+import { exportIncidentPdf } from '../lib/exportPdf'
 import * as api from '../lib/api'
 
 export default function Dashboard() {
@@ -17,6 +19,8 @@ export default function Dashboard() {
   const [search, setSearch] = useState('')
   const [selectedId, setSelectedId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [activeCategory, setActiveCategory] = useState(null)
+  const [flyToTarget, setFlyToTarget] = useState(null)
 
   const detailRef = useRef({})
   const [, setDetailTick] = useState(0)
@@ -87,6 +91,32 @@ export default function Dashboard() {
     setSearch('')
   }
 
+  const handleSelectCategory = (category) => {
+    setActiveCategory((prev) => prev === category ? null : category)
+    setSelectedId(null)
+    setFlyToTarget(null)
+  }
+
+  const handleSelectIncident = (d) => {
+    setSelectedId(d.id)
+    setFlyToTarget({
+      id: d.id,
+      lat: d.latitude,
+      lon: d.longitude,
+    })
+  }
+
+  const handleCloseCategoryList = () => {
+    setActiveCategory(null)
+    setSelectedId(null)
+    setFlyToTarget(null)
+  }
+
+  const handleCloseDetail = () => {
+    setSelectedId(null)
+    setFlyToTarget(null)
+  }
+
   const empty = detections !== null && filtered.length === 0
 
   return (
@@ -108,25 +138,48 @@ export default function Dashboard() {
           onToggleClass={toggleClass}
           open={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          onClearFilters={clearFilters}
+          onSelectCategory={handleSelectCategory}
+          activeCategory={activeCategory}
         />
 
         <main className="relative flex-1 min-w-0 z-0">
           <MapView
             detections={filtered}
             selectedId={selectedId}
-            onSelect={setSelectedId}
+            onSelect={(id) => {
+              const d = filtered.find((x) => x.id === id)
+              if (d) {
+                setSelectedId(d.id)
+                setFlyToTarget({ id: d.id, lat: d.latitude, lon: d.longitude })
+                setActiveCategory(null)
+              }
+            }}
             loading={detections === null}
             error={error}
             empty={empty}
             onClearFilters={clearFilters}
+            flyToTarget={flyToTarget}
           />
         </main>
+
+        {/* Right-side category list panel */}
+        {activeCategory && (
+          <CategoryList
+            category={activeCategory}
+            detections={detections}
+            onSelectIncident={handleSelectIncident}
+            onClose={handleCloseCategoryList}
+          />
+        )}
       </div>
 
+      {/* Detail panel (individual incident) */}
       {selectedId && (
         <DetailPanel
           entry={detailRef.current[selectedId]}
-          onClose={() => setSelectedId(null)}
+          onClose={handleCloseDetail}
+          onExportPdf={exportIncidentPdf}
         />
       )}
 
