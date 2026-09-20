@@ -49,9 +49,11 @@ const CATEGORY_ICONS = {
   ),
 }
 
-export default function Sidebar({ stats, filters, onToggleClass, open, onClose }) {
+export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
+                                   onClearFilters, onSelectCategory, activeCategory }) {
   const byClass = stats?.by_class ?? {}
   const sources = stats?.sources ?? {}
+  const allActive = filters.size === 5
 
   return (
     <>
@@ -160,7 +162,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose }
                 </span>
 
                 {/* Count badge */}
-                <span className="shrink-0 mr-3 min-w-[28px] text-center">
+                <span className="shrink-0 mr-1 min-w-[28px] text-center">
                   <span
                     className="inline-flex items-center justify-center
                       h-[22px] min-w-[28px] px-1.5 rounded-md
@@ -173,10 +175,44 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose }
                     {count ?? '–'}
                   </span>
                 </span>
+
+                {/* View list button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    onSelectCategory?.(c)
+                  }}
+                  className={`shrink-0 mr-2 h-6 w-6 rounded flex items-center justify-center
+                    transition text-[10px]
+                    ${activeCategory === c
+                      ? 'bg-gray-200 text-gray-700'
+                      : 'text-gray-300 hover:bg-gray-100 hover:text-gray-500'}`}
+                  title={`Show ${SHORT_NAMES[c]} incidents`}
+                >
+                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none"
+                    stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+                  </svg>
+                </button>
               </label>
             )
           })}
         </div>
+
+        {/* Clear filters */}
+        {!allActive && (
+          <div className="px-3 pb-3">
+            <button
+              onClick={onClearFilters}
+              className="w-full text-[11px] font-medium text-gray-400
+                hover:text-gray-600 py-1.5 rounded-md hover:bg-gray-100 transition"
+            >
+              Show all classes
+            </button>
+          </div>
+        )}
 
         {/* Stats footer card */}
         <div className="mt-auto mx-3 mb-3 rounded-lg border border-[#9CA3AF] bg-[#FAFAFB] shadow-sm">
