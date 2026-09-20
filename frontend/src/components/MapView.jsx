@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap }
   from 'react-leaflet'
 import {
@@ -19,6 +19,29 @@ function AutoResize() {
   return null
 }
 
+function FlyTo({ target }) {
+  const map = useMap()
+  const prevId = useRef(null)
+
+  useEffect(() => {
+    if (!target) {
+      if (prevId.current) {
+        map.flyTo(INDIA_CENTER, INDIA_ZOOM, { duration: 1.2 })
+        prevId.current = null
+      }
+      return
+    }
+    if (target.id === prevId.current) return
+    prevId.current = target.id
+    map.flyTo([target.lat, target.lon], 12, {
+      duration: 1.2,
+      easeLinearity: 0.25,
+    })
+  }, [target, map])
+
+  return null
+}
+
 function radiusFor(frp, selected) {
   return (selected ? 3 : 0) + 4 + Math.min(10, Math.sqrt(frp || 0) / 7)
 }
@@ -36,7 +59,8 @@ function Overlay({ children }) {
 }
 
 export default function MapView({ detections, selectedId, onSelect,
-                                 loading, error, empty, onClearFilters }) {
+                                 loading, error, empty, onClearFilters,
+                                 flyToTarget }) {
   return (
     <div className="absolute inset-0 z-0">
       <MapContainer
@@ -47,9 +71,12 @@ export default function MapView({ detections, selectedId, onSelect,
         className="h-full w-full"
       >
         <AutoResize />
+        <FlyTo target={flyToTarget} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          subdomains="abc"
+          maxZoom={19}
         />
         {(detections ?? []).map((d) => {
           const selected = d.id === selectedId

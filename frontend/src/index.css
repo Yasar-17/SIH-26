@@ -28,6 +28,22 @@
   font-family: inherit;
 }
 
+/* Crisp tile rendering — prevent blur on zoom/transform */
+.leaflet-tile {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.leaflet-pane.leaflet-tile-pane {
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.leaflet-tile-container {
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
 .leaflet-tooltip {
   border: none;
   border-radius: 8px;
