@@ -104,7 +104,7 @@ function PdfIcon() {
   )
 }
 
-function DetailBody({ d, onExportPdf }) {
+function DetailBody({ d, onExportPdf, onClose }) {
   const color = CATEGORY_COLORS[d.predicted_class] || '#6b7280'
   const whyNotBullets = d.why_not
     ? d.why_not.explanation.split('; ').filter((s) => s.trim())
@@ -131,6 +131,7 @@ function DetailBody({ d, onExportPdf }) {
               <span className="hidden sm:inline">PDF</span>
             </button>
             <button
+              onClick={onClose}
               className="h-7 w-7 rounded-lg flex items-center justify-center
                 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
               aria-label="Close detail panel"
@@ -291,7 +292,7 @@ export default function DetailPanel({ entry, onClose, onExportPdf }) {
           </div>
         )}
 
-        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} />}
+        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} onClose={onClose} />}
       </aside>
 
       {/* Mobile: bottom drawer, 60% height */}
@@ -322,7 +323,7 @@ export default function DetailPanel({ entry, onClose, onExportPdf }) {
           </div>
         )}
 
-        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} />}
+        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} onClose={onClose} />}
       </aside>
     </>
   )
