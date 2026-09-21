@@ -26,17 +26,14 @@ function FlyTo({ target }) {
   useEffect(() => {
     if (!target) {
       if (prevId.current) {
-        map.flyTo(INDIA_CENTER, INDIA_ZOOM, { duration: 1.2 })
+        map.setView(INDIA_CENTER, INDIA_ZOOM)
         prevId.current = null
       }
       return
     }
     if (target.id === prevId.current) return
     prevId.current = target.id
-    map.flyTo([target.lat, target.lon], 12, {
-      duration: 1.2,
-      easeLinearity: 0.25,
-    })
+    map.setView([target.lat, target.lon], 12)
   }, [target, map])
 
   return null
