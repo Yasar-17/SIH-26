@@ -124,7 +124,7 @@ function DetailBody({ d, onExportPdf, onClose }) {
               onClick={() => onExportPdf?.(d)}
               className="h-7 px-2.5 rounded-lg flex items-center gap-1.5
                 text-[10px] font-medium text-slate-400
-                hover:bg-slate-100 hover:text-orange-600 transition"
+                hover:bg-slate-100 hover:text-orange-600"
               title="Export as PDF"
             >
               <PdfIcon />
@@ -133,7 +133,7 @@ function DetailBody({ d, onExportPdf, onClose }) {
             <button
               onClick={onClose}
               className="h-7 w-7 rounded-lg flex items-center justify-center
-                text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+                text-slate-400 hover:bg-slate-100 hover:text-slate-600"
               aria-label="Close detail panel"
             >
               <CloseIcon />
@@ -260,7 +260,7 @@ export default function DetailPanel({ entry, onClose, onExportPdf }) {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-[65] bg-black/40 backdrop-blur-[1px] animate-fade-in"
+        className="fixed inset-0 z-[65] bg-black/40 backdrop-blur-[1px]"
         onClick={onClose}
       />
 
@@ -271,13 +271,12 @@ export default function DetailPanel({ entry, onClose, onExportPdf }) {
         w-[400px] max-w-[90vw]
         bg-white border-l border-slate-200
         flex-col h-full shadow-2xl
-        animate-slide-right
       ">
         {(!entry || entry.status === 'loading') && (
           <div className="h-full flex flex-col items-center justify-center
             gap-3 text-slate-400">
             <div className="h-7 w-7 rounded-full border-[3px]
-              border-slate-200 border-t-orange-500 animate-spin" />
+              border-slate-200 border-t-orange-500" />
             <p className="text-xs">Classifying detection...</p>
           </div>
         )}
@@ -302,13 +301,13 @@ export default function DetailPanel({ entry, onClose, onExportPdf }) {
         w-full h-[60vh]
         bg-white border-t border-slate-200
         flex flex-col shadow-2xl
-        animate-slide-up rounded-t-2xl
+        rounded-t-2xl
       ">
         {(!entry || entry.status === 'loading') && (
           <div className="h-full flex flex-col items-center justify-center
             gap-3 text-slate-400">
             <div className="h-7 w-7 rounded-full border-[3px]
-              border-slate-200 border-t-orange-500 animate-spin" />
+              border-slate-200 border-t-orange-500" />
             <p className="text-xs">Classifying detection...</p>
           </div>
         )}

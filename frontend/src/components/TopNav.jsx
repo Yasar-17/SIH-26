@@ -36,7 +36,7 @@ function SearchIcon() {
 
 function RefreshIcon({ spinning }) {
   return (
-    <svg viewBox="0 0 24 24" className={`h-4 w-4 ${spinning ? 'animate-spin' : ''}`}
+    <svg viewBox="0 0 24 24" className="h-4 w-4"
       fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
       <path d="M21 12a9 9 0 1 1-2.64-6.36" />
       <path d="M21 3v6h-6" />
@@ -55,7 +55,7 @@ function Freshness({ lastRefresh }) {
   if (!lastRefresh) {
     return (
       <div className="flex items-center gap-2 text-xs text-slate-400">
-        <span className="h-2 w-2 rounded-full bg-slate-300 animate-pulse" />
+        <span className="h-2 w-2 rounded-full bg-slate-300" />
         <span className="hidden sm:inline">connecting</span>
       </div>
     )
@@ -64,7 +64,7 @@ function Freshness({ lastRefresh }) {
   const fresh = secs < 70
   return (
     <div className="flex items-center gap-2 text-xs text-slate-500">
-      <span className={`h-2 w-2 rounded-full transition-colors duration-300 ${
+      <span className={`h-2 w-2 rounded-full ${
         fresh ? 'bg-emerald-500' : 'bg-amber-500'
       }`} />
       <span className="font-mono hidden sm:inline">
@@ -85,7 +85,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
       <button
         onClick={onToggleSidebar}
         className="md:hidden h-9 w-9 rounded-lg flex items-center justify-center
-          text-slate-500 hover:bg-slate-100 transition"
+          text-slate-500 hover:bg-slate-100"
         aria-label="Toggle sidebar"
       >
         <MenuIcon />
@@ -119,7 +119,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
               border border-slate-200 text-sm text-slate-700
               placeholder:text-slate-400 focus:outline-none
               focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400
-              focus:bg-white transition"
+              focus:bg-white"
           />
         </div>
       </div>
@@ -129,7 +129,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
         <button
           onClick={() => setSearchOpen((v) => !v)}
           className="h-9 w-9 rounded-lg flex items-center justify-center
-            text-slate-500 hover:bg-slate-100 transition"
+            text-slate-500 hover:bg-slate-100"
           aria-label="Toggle search"
         >
           <SearchIcon />
@@ -139,7 +139,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
       {/* Mobile search bar (expandable) */}
       {searchOpen && (
         <div className="md:hidden absolute top-14 left-0 right-0 z-50
-          bg-white border-b border-slate-200 px-3 py-2 shadow-md animate-slide-up">
+          bg-white border-b border-slate-200 px-3 py-2 shadow-md">
           <div className="relative">
             <div className="absolute left-3 top-1/2 -translate-y-1/2">
               <SearchIcon />
@@ -153,7 +153,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
                 border border-slate-200 text-sm text-slate-700
                 placeholder:text-slate-400 focus:outline-none
                 focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400
-                focus:bg-white transition"
+              focus:bg-white"
               autoFocus
             />
           </div>
@@ -167,7 +167,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
           disabled={refreshing}
           className="h-9 px-3 rounded-lg border border-slate-200 text-sm
             text-slate-600 hover:bg-slate-50 hover:border-slate-300
-            disabled:opacity-50 flex items-center gap-1.5 transition"
+            disabled:opacity-50 flex items-center gap-1.5"
         >
           <RefreshIcon spinning={refreshing} />
           <span className="hidden sm:inline">Refresh</span>

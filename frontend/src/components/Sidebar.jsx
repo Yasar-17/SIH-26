@@ -59,7 +59,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
     <>
       {open && (
         <div
-          className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-[1px] animate-fade-in"
+          className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-[1px]"
           onClick={onClose}
         />
       )}
@@ -69,7 +69,6 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
         shadow-[2px_0_8px_-2px_rgba(0,0,0,0.1)]
         fixed md:static top-14 bottom-0 left-0 z-[70]
         w-[260px] md:w-[230px] lg:w-[260px] xl:w-[300px]
-        transition-transform duration-200 ease-in-out
         ${open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         {/* Mobile close button */}
@@ -77,7 +76,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
           <button
             onClick={onClose}
             className="h-8 w-8 rounded-lg flex items-center justify-center
-              text-gray-400 hover:bg-gray-100 transition"
+              text-gray-400 hover:bg-gray-100"
             aria-label="Close sidebar"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none"
@@ -115,7 +114,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
                 key={c}
                 className={`
                   group flex items-center gap-0 rounded-lg cursor-pointer
-                  select-none transition-all duration-150 relative overflow-hidden
+                  select-none relative overflow-hidden
                   border
                   ${on
                     ? 'border-gray-400 shadow-sm'
@@ -134,7 +133,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
               >
                 {/* Left accent bar */}
                 <span
-                  className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-lg transition-opacity duration-150"
+                  className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-lg"
                   style={{
                     backgroundColor: color,
                     opacity: on ? 1 : 0.25,
@@ -150,7 +149,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
                   }}
                 >
                   <div
-                    className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-150
+                    className={`w-4 h-4 rounded border-2 flex items-center justify-center
                       ${on ? 'border-current' : 'border-gray-300'}`}
                     style={{ color: on ? color : '#9CA3AF' }}
                   >
@@ -165,7 +164,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
 
                 {/* Icon */}
                 <span
-                  className="shrink-0 w-8 flex items-center justify-center transition-colors duration-150"
+                  className="shrink-0 w-8 flex items-center justify-center"
                   style={{ color: on ? color : '#9CA3AF' }}
                 >
                   {CATEGORY_ICONS[c]}
@@ -181,7 +180,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
                   <span
                     className="inline-flex items-center justify-center
                       h-[22px] min-w-[28px] px-1.5 rounded-md
-                      font-mono text-[11px] font-semibold transition-colors duration-150"
+                      font-mono text-[11px] font-semibold"
                     style={{
                       backgroundColor: on ? tint : '#F1F2F4',
                       color: on ? color : '#9CA3AF',
@@ -192,7 +191,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
                 </span>
 
                 {/* Chevron indicator */}
-                <span className="shrink-0 mr-2 text-gray-300 group-hover:text-gray-500 transition-colors">
+                <span className="shrink-0 mr-2 text-gray-300 group-hover:text-gray-500">
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none"
                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6"/>
@@ -209,7 +208,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
             <button
               onClick={onClearFilters}
               className="w-full text-[11px] font-medium text-gray-400
-                hover:text-gray-600 py-1.5 rounded-md hover:bg-gray-100 transition"
+                hover:text-gray-600 py-1.5 rounded-md hover:bg-gray-100"
             >
               Show all classes
             </button>

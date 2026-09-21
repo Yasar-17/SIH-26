@@ -43,7 +43,6 @@ export default function CategoryList({ category, detections, onSelectIncident, o
       w-[380px] max-w-[90vw]
       bg-white border-l border-slate-200
       flex flex-col shadow-2xl
-      animate-slide-right
     ">
       {/* Header */}
       <div className="shrink-0 px-4 pt-4 pb-3 border-b border-slate-200">
@@ -64,7 +63,7 @@ export default function CategoryList({ category, detections, onSelectIncident, o
           <button
             onClick={onClose}
             className="h-7 w-7 rounded-lg flex items-center justify-center
-              text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+              text-slate-400 hover:bg-slate-100 hover:text-slate-600"
             aria-label="Close category list"
           >
             <CloseIcon />
@@ -75,7 +74,7 @@ export default function CategoryList({ category, detections, onSelectIncident, o
         <div className="flex items-center gap-1 bg-slate-100 rounded-lg p-0.5">
           <button
             onClick={() => setSortBy('confidence')}
-            className={`flex-1 text-[11px] font-medium py-1.5 rounded-md transition
+            className={`flex-1 text-[11px] font-medium py-1.5 rounded-md
               ${sortBy === 'confidence'
                 ? 'bg-white text-slate-900 shadow-sm'
                 : 'text-slate-500 hover:text-slate-700'}`}
@@ -84,7 +83,7 @@ export default function CategoryList({ category, detections, onSelectIncident, o
           </button>
           <button
             onClick={() => setSortBy('recent')}
-            className={`flex-1 text-[11px] font-medium py-1.5 rounded-md transition
+            className={`flex-1 text-[11px] font-medium py-1.5 rounded-md
               ${sortBy === 'recent'
                 ? 'bg-white text-slate-900 shadow-sm'
                 : 'text-slate-500 hover:text-slate-700'}`}
@@ -105,7 +104,7 @@ export default function CategoryList({ category, detections, onSelectIncident, o
             {items.map((d) => (
               <div
                 key={d.id}
-                className="group px-4 py-3 hover:bg-slate-50 transition cursor-pointer"
+                className="group px-4 py-3 hover:bg-slate-50 cursor-pointer"
                 onClick={() => onSelectIncident(d)}
               >
                 <div className="flex items-center gap-2 mb-1.5">
