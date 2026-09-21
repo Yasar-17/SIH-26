@@ -111,7 +111,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
             const tintDeeper = CATEGORY_TINT_DEEPER[c]
 
             return (
-              <label
+              <div
                 key={c}
                 className={`
                   group flex items-center gap-0 rounded-lg cursor-pointer
@@ -130,6 +130,7 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
                 onMouseLeave={(e) => {
                   if (on) e.currentTarget.style.background = tint
                 }}
+                onClick={() => onSelectCategory?.(c)}
               >
                 {/* Left accent bar */}
                 <span
@@ -140,17 +141,31 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
                   }}
                 />
 
-                {/* Hidden checkbox for keyboard/accessibility */}
-                <input
-                  type="checkbox"
-                  checked={on}
-                  onChange={() => onToggleClass(c)}
-                  className="sr-only"
-                />
+                {/* Filter checkbox */}
+                <div
+                  className="shrink-0 w-10 flex items-center justify-center"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onToggleClass(c)
+                  }}
+                >
+                  <div
+                    className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-150
+                      ${on ? 'border-current' : 'border-gray-300'}`}
+                    style={{ color: on ? color : '#9CA3AF' }}
+                  >
+                    {on && (
+                      <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none"
+                        stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    )}
+                  </div>
+                </div>
 
                 {/* Icon */}
                 <span
-                  className="shrink-0 w-10 flex items-center justify-center transition-colors duration-150"
+                  className="shrink-0 w-8 flex items-center justify-center transition-colors duration-150"
                   style={{ color: on ? color : '#9CA3AF' }}
                 >
                   {CATEGORY_ICONS[c]}
@@ -176,27 +191,14 @@ export default function Sidebar({ stats, filters, onToggleClass, open, onClose,
                   </span>
                 </span>
 
-                {/* View list button */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    onSelectCategory?.(c)
-                  }}
-                  className={`shrink-0 mr-2 h-6 w-6 rounded flex items-center justify-center
-                    transition text-[10px]
-                    ${activeCategory === c
-                      ? 'bg-gray-200 text-gray-700'
-                      : 'text-gray-300 hover:bg-gray-100 hover:text-gray-500'}`}
-                  title={`Show ${SHORT_NAMES[c]} incidents`}
-                >
-                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none"
-                    stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+                {/* Chevron indicator */}
+                <span className="shrink-0 mr-2 text-gray-300 group-hover:text-gray-500 transition-colors">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none"
+                    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
                   </svg>
-                </button>
-              </label>
+                </span>
+              </div>
             )
           })}
         </div>
