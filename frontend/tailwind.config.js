@@ -23,7 +23,6 @@ export default {
           red: '#dc2626',
         },
       },
-
     },
   },
   plugins: [],
