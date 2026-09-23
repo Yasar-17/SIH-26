@@ -13,7 +13,7 @@ export const CLASSES = [
 export const SHORT_NAMES = {
   'Industrial Fire': 'Industrial',
   'Gas Flare': 'Gas Flare',
-  Wildfire: 'Wildfire',
+  'Wildfire': 'Wildfire',
   'Agricultural Burning': 'Ag Burning',
   'Other/Unknown': 'Other',
 }
@@ -21,7 +21,7 @@ export const SHORT_NAMES = {
 export const CATEGORY_COLORS = {
   'Industrial Fire': '#dc2626',
   'Gas Flare': '#ea580c',
-  Wildfire: '#16a34a',
+  'Wildfire': '#16a34a',
   'Agricultural Burning': '#eab308',
   'Other/Unknown': '#6b7280',
 }
