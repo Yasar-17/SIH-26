@@ -23,13 +23,16 @@ STATIC_DIR = os.path.join(os.path.dirname(_BASE_DIR), "frontend", "dist")
 
 # Comma-separated extra origins (e.g. your Vercel domain) via CORS_ORIGINS.
 _origins = [
-    "http://localhost:5173", "http://127.0.0.1:5173",
-    "http://localhost:5174", "http://127.0.0.1:5174",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
 ]
 _origins += [o.strip() for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip()]
 
 
 @asynccontextmanager
+
 async def lifespan(app: FastAPI):
     try:
         detections_store.init_store()
