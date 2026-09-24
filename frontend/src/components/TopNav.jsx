@@ -76,7 +76,8 @@ function Freshness({ lastRefresh }) {
 }
 
 export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
-                                refreshing, sidebarOpen, onToggleSidebar }) {
+                                refreshing, sidebarOpen, onToggleSidebar,
+                                searchInputProps = {} }) {
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
@@ -114,6 +115,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
             type="text"
             value={search}
             onChange={(e) => onSearch(e.target.value)}
+            {...searchInputProps}
             placeholder="Search id, class, notes, coordinates..."
             className="w-full h-10 pl-9 pr-4 rounded-xl bg-slate-100
               border border-slate-200 text-sm text-slate-700
@@ -148,6 +150,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
               type="text"
               value={search}
               onChange={(e) => onSearch(e.target.value)}
+              {...searchInputProps}
               placeholder="Search id, class, notes, coordinates..."
               className="w-full h-9 pl-9 pr-3 rounded-lg bg-slate-100
                 border border-slate-200 text-sm text-slate-700
