@@ -104,7 +104,7 @@ function PdfIcon() {
   )
 }
 
-function DetailBody({ d, onExportPdf, onClose }) {
+function DetailBody({ d, onExportPdf, onClose, onReview, reviewStatus }) {
   const color = CATEGORY_COLORS[d.predicted_class] || '#6b7280'
   const whyNotBullets = d.why_not
     ? d.why_not.explanation.split('; ').filter((s) => s.trim())
@@ -213,6 +213,13 @@ function DetailBody({ d, onExportPdf, onClose }) {
           <ProbChart top3={d.top_3} />
         </Section>
 
+        <Section title="Review status">
+          <div className="flex gap-2">
+            <button onClick={() => onReview('reviewed')} className="rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-700">{reviewStatus === 'reviewed' ? 'Reviewed' : 'Mark reviewed'}</button>
+            <button onClick={() => onReview('follow-up')} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 hover:border-orange-400 hover:text-orange-700">{reviewStatus === 'follow-up' ? 'Follow-up flagged' : 'Flag for follow-up'}</button>
+          </div>
+        </Section>
+
         <Section title="Key evidence">
           <ul className="space-y-2.5">
             {d.evidence.map((e, i) => (
@@ -255,7 +262,7 @@ function DetailBody({ d, onExportPdf, onClose }) {
   )
 }
 
-export default function DetailPanel({ entry, onClose, onExportPdf }) {
+export default function DetailPanel({ entry, onClose, onExportPdf, onReview, reviewStatus }) {
   return (
     <>
       {/* Backdrop */}
@@ -291,7 +298,7 @@ export default function DetailPanel({ entry, onClose, onExportPdf }) {
           </div>
         )}
 
-        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} onClose={onClose} />}
+        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} onClose={onClose} onReview={onReview} reviewStatus={reviewStatus} />}
       </aside>
 
       {/* Mobile: bottom drawer, 60% height */}
@@ -322,7 +329,7 @@ export default function DetailPanel({ entry, onClose, onExportPdf }) {
           </div>
         )}
 
-        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} onClose={onClose} />}
+        {entry?.status === 'ok' && <DetailBody d={entry.data} onExportPdf={onExportPdf} onClose={onClose} onReview={onReview} reviewStatus={reviewStatus} />}
       </aside>
     </>
   )
