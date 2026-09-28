@@ -11,13 +11,15 @@ export default function ReviewQueue({ detections, onSelectIncident, onClose, rev
     const rank = { High: 0, Medium: 1, Low: 2 }
     return (rank[a.priority] ?? 3) - (rank[b.priority] ?? 3)
   }), [detections, sort])
+  const reviewedCount = items.filter((item) => reviewedIds?.has(item.id)).length
+  const followUpCount = items.filter((item) => followUpIds?.has(item.id)).length
 
   return <aside className="fixed inset-y-0 right-0 z-[68] flex w-[390px] max-w-[94vw] flex-col border-l border-slate-200 bg-white shadow-2xl" aria-label="Incident review queue">
     <div className="shrink-0 border-b border-slate-200 px-4 py-4">
-      <div className="mb-3 flex items-center justify-between"><div><p className="eyebrow">Operational view</p><h2 className="font-display text-lg font-bold text-slate-900">Review queue <span className="font-mono text-sm text-slate-400">{items.length}</span></h2></div><button onClick={onClose} className="icon-button" aria-label="Close review queue"><CloseIcon /></button></div>
+      <div className="mb-3 flex items-center justify-between"><div><p className="eyebrow">Operational view</p><h2 className="font-display text-lg font-bold text-slate-900">Review queue <span className="font-mono text-sm text-slate-400">{items.length}</span></h2><p className="mt-1 text-[11px] text-slate-500">{reviewedCount} reviewed · {followUpCount} follow-up</p></div><button onClick={onClose} className="icon-button" aria-label="Close review queue"><CloseIcon /></button></div>
       <div className="flex gap-1 rounded-lg bg-slate-100 p-0.5">{[['priority', 'Priority'], ['recent', 'Recent'], ['confidence', 'Confidence']].map(([value, label]) => <button key={value} onClick={() => setSort(value)} className={`flex-1 rounded-md py-1.5 text-[11px] font-semibold ${sort === value ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}>{label}</button>)}</div>
     </div>
-    <div className="min-h-0 flex-1 overflow-y-auto divide-y divide-slate-100">{items.map((d) => <button key={d.id} onClick={() => onSelectIncident(d)} className="block w-full px-4 py-3 text-left hover:bg-orange-50 focus:bg-orange-50">
+    <div className="min-h-0 flex-1 overflow-y-auto divide-y divide-slate-100">{items.length === 0 ? <div className="flex h-full items-center justify-center px-8 text-center"><div><p className="text-sm font-semibold text-slate-700">Queue is clear</p><p className="mt-1 text-xs leading-relaxed text-slate-500">No visible detections match the current filters.</p></div></div> : items.map((d) => <button key={d.id} onClick={() => onSelectIncident(d)} className="block w-full px-4 py-3 text-left hover:bg-orange-50 focus:bg-orange-50">
       <div className="mb-1 flex items-center justify-between gap-2"><span className="font-mono text-[10px] text-slate-400">{d.id}</span><span className={`rounded px-1.5 py-0.5 text-[9px] font-bold tracking-wider ${PRIORITY_STYLES[d.priority] || PRIORITY_STYLES.Low}`}>{d.priority}</span></div>
       <p className="text-sm font-semibold text-slate-800">{d.category}</p><div className="mt-1 flex flex-wrap items-center gap-3 text-[11px] text-slate-500"><span className="font-mono">{Math.round((d.category_probability || 0) * 100)}% confidence</span><span>{d.frp_mw?.toFixed(1)} MW</span><span>{d.source}</span>{reviewedIds?.has(d.id) && <span className="text-emerald-600">Reviewed</span>}{followUpIds?.has(d.id) && <span className="text-orange-600">Follow-up</span>}</div>
       <p className="mt-1 text-[10px] text-slate-400">{new Date(d.detected_at).toLocaleString()}</p>
