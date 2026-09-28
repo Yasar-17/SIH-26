@@ -11,6 +11,15 @@ import { CLASSES, REFRESH_INTERVAL_MS } from '../lib/constants'
 import { exportIncidentPdf } from '../lib/exportPdf'
 import * as api from '../lib/api'
 
+function loadReviewIds(key) {
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) || '[]')
+    return new Set(Array.isArray(stored) ? stored : [])
+  } catch {
+    return new Set()
+  }
+}
+
 export default function Dashboard() {
   const [detections, setDetections] = useState(null)
   const [stats, setStats] = useState(null)
@@ -31,8 +40,8 @@ export default function Dashboard() {
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [reviewFilter, setReviewFilter] = useState('all')
-  const [reviewedIds, setReviewedIds] = useState(() => new Set())
-  const [followUpIds, setFollowUpIds] = useState(() => new Set())
+  const [reviewedIds, setReviewedIds] = useState(() => loadReviewIds('tacis-reviewed-ids'))
+  const [followUpIds, setFollowUpIds] = useState(() => loadReviewIds('tacis-follow-up-ids'))
   const [mapMode, setMapMode] = useState('points')
   const [baseLayer, setBaseLayer] = useState('street')
   const [queueOpen, setQueueOpen] = useState(false)
@@ -151,10 +160,29 @@ export default function Dashboard() {
 
   const updateReview = (id, status) => {
     if (status === 'reviewed') {
-      setReviewedIds((current) => new Set(current).add(id))
-      setFollowUpIds((current) => { const next = new Set(current); next.delete(id); return next })
+      setReviewedIds((current) => {
+        const next = new Set(current).add(id)
+        localStorage.setItem('tacis-reviewed-ids', JSON.stringify([...next]))
+        return next
+      })
+      setFollowUpIds((current) => {
+        const next = new Set(current)
+        next.delete(id)
+        localStorage.setItem('tacis-follow-up-ids', JSON.stringify([...next]))
+        return next
+      })
     } else {
-      setFollowUpIds((current) => new Set(current).add(id))
+      setReviewedIds((current) => {
+        const next = new Set(current)
+        next.delete(id)
+        localStorage.setItem('tacis-reviewed-ids', JSON.stringify([...next]))
+        return next
+      })
+      setFollowUpIds((current) => {
+        const next = new Set(current).add(id)
+        localStorage.setItem('tacis-follow-up-ids', JSON.stringify([...next]))
+        return next
+      })
     }
   }
 
