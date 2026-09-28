@@ -34,6 +34,15 @@ function SearchIcon() {
   )
 }
 
+function ClearIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none"
+      stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  )
+}
+
 function RefreshIcon({ spinning }) {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4"
@@ -123,6 +132,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
               focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400
               focus:bg-white"
           />
+          {search && <button onClick={() => onSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2 icon-button" aria-label="Clear search"><ClearIcon /></button>}
         </div>
       </div>
 
@@ -159,6 +169,7 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
               focus:bg-white"
               autoFocus
             />
+            {search && <button onClick={() => onSearch('')} className="absolute right-1 top-1/2 -translate-y-1/2 icon-button" aria-label="Clear search"><ClearIcon /></button>}
           </div>
         </div>
       )}
