@@ -1,3 +1,5 @@
+import { REFRESH_INTERVAL_MS } from '../lib/constants'
+
 export default function StatusBar({ shown, total, lastRefresh, error }) {
   const time = lastRefresh
     ? lastRefresh.toLocaleTimeString([], {
@@ -23,7 +25,7 @@ export default function StatusBar({ shown, total, lastRefresh, error }) {
         </span>
       </div>
       <div className="flex items-center gap-3">
-        <span className="hidden sm:inline">auto-refresh 60s</span>
+        <span className="hidden sm:inline">auto-refresh {Math.round(REFRESH_INTERVAL_MS / 1000)}s</span>
         <span>
           <span className="hidden sm:inline">Last refresh </span>
           <span className="font-mono text-slate-700">{time}</span>
