@@ -39,7 +39,7 @@ export default function CategoryList({ category, detections, onSelectIncident, o
 
   return (
     <aside className="
-      fixed inset-y-0 right-0 z-[68]
+      fixed inset-y-0 right-0 z-[90]
       w-[380px] max-w-[90vw]
       bg-white border-l border-slate-200
       flex flex-col shadow-2xl

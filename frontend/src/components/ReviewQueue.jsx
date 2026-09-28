@@ -14,7 +14,7 @@ export default function ReviewQueue({ detections, onSelectIncident, onClose, rev
   const reviewedCount = items.filter((item) => reviewedIds?.has(item.id)).length
   const followUpCount = items.filter((item) => followUpIds?.has(item.id)).length
 
-  return <aside className="fixed inset-y-0 right-0 z-[68] flex w-[390px] max-w-[94vw] flex-col border-l border-slate-200 bg-white shadow-2xl" aria-label="Incident review queue">
+  return <aside className="fixed inset-y-0 right-0 z-[90] flex w-[390px] max-w-[94vw] flex-col border-l border-slate-200 bg-white shadow-2xl" aria-label="Incident review queue">
     <div className="shrink-0 border-b border-slate-200 px-4 py-4">
       <div className="mb-3 flex items-center justify-between"><div><p className="eyebrow">Operational view</p><h2 className="font-display text-lg font-bold text-slate-900">Review queue <span className="font-mono text-sm text-slate-400">{items.length}</span></h2><p className="mt-1 text-[11px] text-slate-500">{reviewedCount} reviewed · {followUpCount} follow-up</p></div><button onClick={onClose} className="icon-button" aria-label="Close review queue"><CloseIcon /></button></div>
       <div className="flex gap-1 rounded-lg bg-slate-100 p-0.5">{[['priority', 'Priority'], ['recent', 'Recent'], ['confidence', 'Confidence']].map(([value, label]) => <button key={value} onClick={() => setSort(value)} className={`flex-1 rounded-md py-1.5 text-[11px] font-semibold ${sort === value ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}>{label}</button>)}</div>

@@ -267,14 +267,14 @@ export default function DetailPanel({ entry, onClose, onExportPdf, onReview, rev
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-[65] bg-black/40 backdrop-blur-[1px]"
+        className="fixed inset-0 z-[85] bg-black/40 backdrop-blur-[1px]"
         onClick={onClose}
       />
 
       {/* Desktop: right side panel, capped at 400px */}
       <aside className="
         hidden sm:flex
-        fixed inset-y-0 right-0 z-[70]
+        fixed inset-y-0 right-0 z-[90]
         w-[400px] max-w-[90vw]
         bg-white border-l border-slate-200
         flex-col h-full shadow-2xl
@@ -304,7 +304,7 @@ export default function DetailPanel({ entry, onClose, onExportPdf, onReview, rev
       {/* Mobile: bottom drawer, 60% height */}
       <aside className="
         sm:hidden
-        fixed inset-x-0 bottom-0 z-[70]
+        fixed inset-x-0 bottom-0 z-[90]
         w-full h-[60vh]
         bg-white border-t border-slate-200
         flex flex-col shadow-2xl
