@@ -179,12 +179,15 @@ export default function TopNav({ search, onSearch, lastRefresh, onRefresh,
         <button
           onClick={onRefresh}
           disabled={refreshing}
+          aria-busy={refreshing}
+          aria-label={refreshing ? 'Refreshing detections' : 'Refresh detections'}
+          title={refreshing ? 'Refreshing detections' : 'Refresh detections'}
           className="h-9 px-3 rounded-lg border border-slate-200 text-sm
             text-slate-600 hover:bg-slate-50 hover:border-slate-300
             disabled:opacity-50 flex items-center gap-1.5"
         >
           <RefreshIcon spinning={refreshing} />
-          <span className="hidden sm:inline">Refresh</span>
+          <span className="hidden sm:inline">{refreshing ? 'Refreshing...' : 'Refresh'}</span>
         </button>
       </div>
     </header>
